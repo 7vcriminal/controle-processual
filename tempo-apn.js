@@ -44,7 +44,7 @@
         <table>
             <thead>
                 <tr>
-                    <th class="no-sort">Situação</th>
+                    <th class="no-sort situacao-col">Situação</th>
                     <th onclick="sortApn('tramitacao')">Tramitação <span id="sort-ap-tramitacao"></span></th>
                     <th onclick="sortApn('processo')">Processo <span id="sort-ap-processo"></span></th>
                     <th class="no-sort">Status</th>
@@ -372,7 +372,7 @@ function renderApn() {
         const staleTitle = !p.updatedAt ? 'Sem atualização registrada no sistema' : `Sem movimentação há ${p._diasMov} dias`;
         return `
         <tr onclick="openModalApn(${p.id})">
-            <td class="center">${ok
+            <td class="center situacao-col">${ok
                 ? '<span class="badge badge-sim"><i class="fas fa-check"></i> OK</span>'
                 : '<span class="badge badge-nao"><i class="fas fa-exclamation"></i> Pendente</span>'}</td>
             <td class="center"><span class="dias-pill ${diasClass(p._dias, 180, 500)}">${p._dias != null ? p._dias + ' dias' : '—'}</span></td>
@@ -400,13 +400,13 @@ function saveApnFilas(list) { localStorage.setItem(STORAGE_APN_FILAS, JSON.strin
 function loadApnStatus() {
     const stored = JSON.parse(localStorage.getItem(STORAGE_APN_STATUS) || '[]');
     const fromData = apns.map(p => p.status).filter(Boolean);
-    return [...new Set([...DEFAULT_APN_STATUS, ...stored, ...fromData])];
+    return [...new Set([...DEFAULT_APN_STATUS, ...stored, ...fromData])].sort((a, b) => a.localeCompare(b));
 }
 function saveApnStatus(list) { localStorage.setItem(STORAGE_APN_STATUS, JSON.stringify(list)); }
 function loadApnFases() {
     const stored = JSON.parse(localStorage.getItem(STORAGE_APN_FASES) || '[]');
     const fromData = apns.map(p => p.faseProcessual).filter(Boolean);
-    return [...new Set([...DEFAULT_APN_FASES, ...stored, ...fromData])];
+    return [...new Set([...DEFAULT_APN_FASES, ...stored, ...fromData])].sort((a, b) => a.localeCompare(b));
 }
 function saveApnFases(list) { localStorage.setItem(STORAGE_APN_FASES, JSON.stringify(list)); }
 function buildApnSelect(selectEl, options, currentValue) {
