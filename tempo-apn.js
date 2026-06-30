@@ -48,7 +48,6 @@
                     <th onclick="sortApn('tramitacao')">Tramitação <span id="sort-ap-tramitacao"></span></th>
                     <th onclick="sortApn('processo')">Processo <span id="sort-ap-processo"></span></th>
                     <th class="no-sort">Status</th>
-                    <th onclick="sortApn('data_distribuicao')">Distribuição <span id="sort-ap-data_distribuicao"></span></th>
                     <th class="no-sort">Denúncia</th>
                     <th class="no-sort">1ª Sentença</th>
                     <th class="no-sort">Julgado</th>
@@ -363,7 +362,7 @@ function renderApn() {
     const tbody = document.getElementById('ap-table-body');
     if (!tbody) return;
     if (!list.length) {
-        tbody.innerHTML = `<tr><td colspan="11"><div class="empty-state"><i class="fas fa-folder-open"></i><div>Nenhum processo encontrado</div></div></td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10"><div class="empty-state"><i class="fas fa-folder-open"></i><div>Nenhum processo encontrado</div></div></td></tr>`;
         return;
     }
     tbody.innerHTML = list.map(p => {
@@ -376,9 +375,8 @@ function renderApn() {
                 ? '<span class="badge badge-sim"><i class="fas fa-check"></i> OK</span>'
                 : '<span class="badge badge-nao"><i class="fas fa-exclamation"></i> Pendente</span>'}</td>
             <td class="center"><span class="dias-pill ${diasClass(p._dias, 180, 500)}">${p._dias != null ? p._dias + ' dias' : '—'}</span></td>
-            <td class="proc-num">${p.processo}${stale ? ` <i class="fas fa-triangle-exclamation" style="color:var(--red)" title="${staleTitle}"></i>` : ''}</td>
+            <td class="proc-num proc-num-nowrap">${p.processo}${stale ? ` <i class="fas fa-triangle-exclamation" style="color:var(--red)" title="${staleTitle}"></i>` : ''}</td>
             <td class="center">${p.status || 'Ativo'}</td>
-            <td class="center">${fmtData(p.dataDistribuicao)}</td>
             <td class="center">${fmtData(p.denuncia)}</td>
             <td class="center"><span class="badge ${p.primeiraSentenca ? 'badge-sim' : 'badge-nao'}">${p.primeiraSentenca ? 'Sim' : 'Não'}</span></td>
             <td class="center"><span class="badge ${p.julgado ? 'badge-sim' : 'badge-nao'}">${p.julgado ? 'Sim' : 'Não'}</span></td>
